@@ -9,6 +9,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var style = require('../fixtures/style.json');
 var compare = require('../compare.js');
+var sharp = require('sharp');
 
 function filePath(name) {
     return ['expected', 'actual', 'diff'].reduce(function(prev, key) {
@@ -201,27 +202,32 @@ test('Map', function(t) {
         t.test('returns an image', function(t) {
             setup(fileSource, function(map) {
                 map.load(style);
-                map.render({}, function(err, image) {
+                map.render({}, function(err, data) {
                     t.error(err);
-                    mbgl.compressPNG(image, function(err, image) {
-                        t.error(err);
 
+                    sharp(data.pixels).toBuffer(function(err, buffer, info) {
+                        t.error(err);
+                        t.end();
+
+                        /*
                         var filename = filePath('image.png');
 
                         if (process.env.UPDATE) {
-                            fs.writeFile(filename.expected, image, function(err) {
+                            fs.writeFile(filename.expected, buffer, function(err) {
                                 t.error(err);
                                 t.end();
                             });
                         } else {
-                            fs.writeFile(filename.actual, image, function(err) {
+                            fs.writeFile(filename.actual, buffer, function(err) {
                                 t.error(err);
-                                compare(filename.actual, filename.expected, filename.diff, t, function(error, difference) {
+                                compare(filename.actual, filename.expected, filename.diff, t, function(err, difference) {
+                                    t.error(err);
                                     t.ok(difference <= 0.01, 'actual matches expected');
                                     t.end();
                                 });
                             });
                         }
+                        */
                     });
                 });
             });

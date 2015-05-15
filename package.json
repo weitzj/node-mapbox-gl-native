@@ -30,6 +30,7 @@
     "mapbox-gl-test-suite": "git://github.com/mapbox/mapbox-gl-test-suite#master",
     "mkdirp": "^0.5.1",
     "request": "^2.55.0",
+    "sharp": "^0.10.0",
     "st": "^0.5.3",
     "tap-spec": "^3.0.0",
     "tape": "^4.0.0"
